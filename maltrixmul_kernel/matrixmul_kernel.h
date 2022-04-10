@@ -1,0 +1,1 @@
+__global__ void square_matrix_multiply(int *a, int *b, int*c, int N);
