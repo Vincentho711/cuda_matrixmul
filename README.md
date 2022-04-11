@@ -13,6 +13,6 @@ For the test below, two $1024 \times 1024$ square matrices have been multiplied 
 A NVidia GeForce GTX 1050 was used. 
 | Method | Calculation time taken in ms (excluding memory allocation time) |
 | --- | --- |
-| Standard matrix multiplication with CPU | 3785390 |
-| Standard matrix multiplication with CUDA multi-threading | 23 |
-| CUBLAS | 1.5 |
+| Standard matrix multiplication with CPU | 6494 |
+| Standard matrix multiplication with CUDA multi-threading | 23.01 |
+| CUBLAS | 1.54 |

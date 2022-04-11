@@ -93,7 +93,7 @@ int main(){
     square_matrix_multiply<<<BLOCKS,THREADS>>>(a, b, c, N);
     auto stop = std::chrono::high_resolution_clock::now();
     cudaDeviceSynchronize();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     std::cout << "Multiplication with matrix_mul kernel (GPU) completed."<< std::endl;
     std::cout << "GPU took: " ;
     std::cout << duration.count() ;
@@ -104,7 +104,7 @@ int main(){
     cublas_matrix_multiply(handle, a, b, c, N);
     stop = std::chrono::high_resolution_clock::now();
     cudaDeviceSynchronize();
-    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     std::cout << "Multiplication with cublas kernel (GPU) completed."<< std::endl;
     std::cout << "GPU took: " ;
     std::cout << duration.count() ;
@@ -114,7 +114,7 @@ int main(){
     start = std::chrono::high_resolution_clock::now();
     std_matrixmul(a, b, c, N);
     stop = std::chrono::high_resolution_clock::now();
-    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     std::cout << "Multiplication with CPU completed."<< std::endl;
     std::cout << "CPU took: " ;
