@@ -1,0 +1,1 @@
+void cublas_matrix_multiply(cublasHandle_t &handle, int *a, int *b, int*c, int N);

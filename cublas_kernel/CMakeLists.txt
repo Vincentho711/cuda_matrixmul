@@ -1,0 +1,2 @@
+add_library(cublas_kernel cublas_kernel.cu)
+target_link_libraries(cublas_kernel cublas)
