@@ -1,6 +1,7 @@
 # ignore all build files
 logs
 build
+linux_build
 
 # vscode
 .vscode/*

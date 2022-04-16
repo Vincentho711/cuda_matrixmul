@@ -6,6 +6,11 @@ Navigate to the root directory of this project and build with CMake. My platform
 ```sh
    C:\msys64\mingw64\bin\cmake.EXE --build c:/Users/XXX/cuda_projects/matrix_mul/build --config Debug --target ALL_BUILD -j 10 --
 ```
+With linux, you can build with
+```sh
+   cmake -S . -B build/
+```
+This will build the project in the `build` directory.
 
 
 ## Results
