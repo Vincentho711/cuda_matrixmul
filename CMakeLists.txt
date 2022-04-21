@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(matrixmul VERSION 0.1.0 LANGUAGES CXX CUDA)
+project(matrixmul VERSION 1.1.0 LANGUAGES CXX CUDA)
 
 enable_language(CUDA)
+
+# Configure file to allow access CMake variables from your code
+configure_file(
+        "${PROJECT_SOURCE_DIR}/config.h.in"
+        "${PROJECT_BINARY_DIR}/config.h"
+)
+
 add_executable(${PROJECT_NAME} main.cu)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+
 add_subdirectory(maltrixmul_kernel)
 add_subdirectory(cublas_kernel)
 

@@ -1,0 +1,4 @@
+#pragma once
+
+#define MATRIXMUL_VERSION_MAJOR @matrixmul_VERSION_MAJOR@
+#define MATRIXMUL_VERSION_MINOR @matrixmul_VERSION_MINOR@

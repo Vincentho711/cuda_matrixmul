@@ -8,6 +8,7 @@
 #include <cublas_v2.h>
 #include "maltrixmul_kernel/matrixmul_kernel.h"
 #include "cublas_kernel/cublas_kernel.h"
+#include "config.h"
 
 // Initialise a square matrix with random numbers from 0 to 100
 void init_matrix(int *m, int N)
@@ -58,7 +59,9 @@ void verify_multiply_results(int *a, int *b, int *c, int N)
 }
 */
 
-int main(){
+int main(int argc, char *argv[])
+{
+    std::cout << argv[0] << " Version " << MATRIXMUL_VERSION_MAJOR << "." << MATRIXMUL_VERSION_MINOR << std::endl;
 
     // Multiplication
     // Set up the matrices to be operated on
