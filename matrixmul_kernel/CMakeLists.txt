@@ -1,0 +1,1 @@
+add_library(matrixmul_kernel matrixmul_kernel.cu)

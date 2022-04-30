@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(matrixmul VERSION 1.1.0 LANGUAGES CXX CUDA)
+project(matrixmul VERSION 2.0.0 LANGUAGES CXX CUDA)
 
 enable_language(CUDA)
 
@@ -13,10 +13,10 @@ add_executable(${PROJECT_NAME} main.cu)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
 
-add_subdirectory(maltrixmul_kernel)
+add_subdirectory(matrixmul_kernel)
 add_subdirectory(cublas_kernel)
 
-target_link_libraries(${PROJECT_NAME} maltrixmul_kernel cublas_kernel)
+target_link_libraries(${PROJECT_NAME} matrixmul_kernel cublas_kernel)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
