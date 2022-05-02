@@ -27,9 +27,11 @@ Finally, call the executable with
 
 ## Results
 For the test below, two $1024 \times 1024$ square matrices have been multiplied together.
+Each of the tests use a different set of matrices generated and curand has been used to generate the matrices
+operated by the cuda kernels.
 A NVidia GeForce GTX 1050 was used. 
 | Method | Calculation time taken in ms (excluding memory allocation time) |
 | --- | --- |
-| Standard matrix multiplication with CPU | 6494 |
-| Standard matrix multiplication with CUDA multi-threading | 23.01 |
-| CUBLAS | 1.54 |
+| Standard matrix multiplication with CPU | 3985 |
+| Standard matrix multiplication with CUDA multi-threading | 3049.49 |
+| CUBLAS | 28.3494 |
