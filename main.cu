@@ -8,6 +8,7 @@
 #include <cublas_v2.h>
 #include <curand.h>
 #include <curand_kernel.h>
+#include <cxxopts.hpp>
 #include "matrixmul_kernel/matrixmul_kernel.h"
 #include "cublas_kernel/cublas_kernel.h"
 #include "config.h"
@@ -221,7 +222,30 @@ void run_std_matrixmul(int N)
 
 int main(int argc, char *argv[])
 {
+    // Instantiate cxxopts object
+    cxxopts::Options options("matrix_mul", "Matrix Multiplication on the GPU with Nvidia CUDA.");
+
+    options.add_options()
+        ("d,debug", "Enable debugging", cxxopts::value<bool>()->default_value("false")) // a bool parameter
+        ("i,integer", "Int param", cxxopts::value<int>())
+        ("f,file", "File name", cxxopts::value<std::string>())
+        ("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
+        ("h,help", "Print usage");
+
+    auto result = options.parse(argc, argv);
+
+    if (result.count("help"))
+    {
+      std::cout << options.help() << std::endl;
+      exit(0);
+    }
+
     std::cout << argv[0] << " Version " << MATRIXMUL_VERSION_MAJOR << "." << MATRIXMUL_VERSION_MINOR << std::endl;
+    std::cout << "Debug: " << result["debug"].as<bool>() << std::endl;
+    if (result.count("integer"))
+    {
+        std::cout << "Integer: " << result["integer"].as<int>() << std::endl;
+    }
 
     // Set N first
     int N = 1<<10;
