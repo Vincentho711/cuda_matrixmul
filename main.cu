@@ -259,4 +259,5 @@ int main(int argc, char *argv[])
     // Launch the cublas kernel test
     run_cublas_kernel_test(N);
     
+    return 0;
 }

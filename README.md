@@ -32,6 +32,6 @@ operated by the cuda kernels.
 A NVidia GeForce GTX 1050 was used. 
 | Method | Calculation time taken in ms (excluding memory allocation time) |
 | --- | --- |
-| Standard matrix multiplication with CPU | 3985 |
-| Standard matrix multiplication with CUDA multi-threading | 3049.49 |
-| CUBLAS | 28.3494 |
+| Standard matrix multiplication with CPU | 3491 |
+| Standard matrix multiplication with CUDA multi-threading | 22.882 |
+| CUBLAS | 1.4472 |
