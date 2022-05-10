@@ -40,7 +40,7 @@ void std_matrixmul(int *a, int *b, int *c, int N)
     }
 }
 
-/*
+
 // Verify matrix multiplication on the CPU
 void verify_multiply_results(int *a, int *b, int *c, int N)
 {
@@ -60,7 +60,7 @@ void verify_multiply_results(int *a, int *b, int *c, int N)
         }
     }
 }
-*/
+
 
 void run_maltrix_kernal_test(int N)
 {
@@ -95,12 +95,7 @@ void run_maltrix_kernal_test(int N)
     std::cout << "Initialise matrices" << std::endl;
     maltrixmul_curand_init<<<BLOCKS, THREADS>>>(time(0), states, N); 
     maltrixmul_init_matrices<<<BLOCKS,THREADS>>>(states, a, b, N);
-    // loop through the array elements
-    /* for ( int i = 0; i < 5; i++)
-    {
-        std::cout << *(a + i) << ", ";
-    } */
-    // Launch the kernel
+    
     std::cout << "Launching kernel" << std::endl;
     cudaEventRecord(start);
     square_matrix_multiply<<<BLOCKS,THREADS>>>(a, b, c, N);
@@ -113,6 +108,68 @@ void run_maltrix_kernal_test(int N)
     std::cout << "matrix_mul kernel took: " ;
     std::cout << milliseconds ;
     std::cout << " ms" << std::endl;
+
+    // Free memory
+    cudaFree(a);
+    cudaFree(b);
+    cudaFree(c);
+    cudaFree(d);
+    cudaFree(states);
+    cudaEventDestroy(start);
+    cudaEventDestroy(stop);
+}
+
+void run_maltrix_shared_kernal_test(int N)
+{
+    std::cout << "Starting matrix mul with shared memory kernel test..." << std::endl;
+    
+    size_t bytes = N*N*sizeof(int);
+    // Allocate unified memory for the matrices
+    int *a, *b, *c, *d;
+    cudaMallocManaged(&a, bytes);
+    cudaMallocManaged(&b, bytes);
+    cudaMallocManaged(&c, bytes);
+    cudaMallocManaged(&d, bytes);
+
+    // Setup grid and block size
+    int threads = 16;
+    int blocks = (N + threads -1)/ threads;
+    dim3 THREADS(threads, threads);
+    dim3 BLOCKS(blocks, blocks);
+
+    // Initialise time counter for CUDA
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    // Object for curand
+    curandState_t *states;
+
+    // Allocate space on the GPU for the random states 
+    cudaMallocManaged((void**) &states, N * N * sizeof(curandState_t));
+
+    // Initialise matrices on the GPU
+    std::cout << "Initialise matrices" << std::endl;
+    maltrixmul_curand_init<<<BLOCKS, THREADS>>>(time(0), states, N); 
+    maltrixmul_init_matrices<<<BLOCKS,THREADS>>>(states, a, b, N);
+    
+    std::cout << "Launching kernel" << std::endl;
+    cudaEventRecord(start);
+    square_matrix_multiply_shared<<<BLOCKS,THREADS>>>(a, b, c, N);
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+
+    std::cout << "Multiplication with matrix_mul with shared memory kernel (GPU) completed."<< std::endl;
+    std::cout << "matrix_mul kernel took: " ;
+    std::cout << milliseconds ;
+    std::cout << " ms" << std::endl;
+
+    // Verify results with CPU
+    std::cout << "Verifying results with CPU..."<< std::endl;
+    verify_multiply_results(a, b, c, N);
+    std::cout << "Verification done."<< std::endl;
 
     // Free memory
     cudaFree(a);
@@ -161,7 +218,6 @@ void run_cublas_kernel_test(int N)
     std::cout << "Initialise matrices" << std::endl;
     cublas_curand_init<<<BLOCKS,THREADS>>>(time(0), states, N); 
     cublas_init_matrices<<<BLOCKS,THREADS>>>(states, a, b, N);
-    // std::cout << *a << std::endl;
 
     // Launch the kernel
     std::cout << "Launching kernel" << std::endl;
@@ -252,12 +308,16 @@ int main(int argc, char *argv[])
 
     // Lauch the standard maltrixmul test
     run_std_matrixmul(N);
+
+    // Launch the cublas kernel test
+    run_cublas_kernel_test(N);
     
     // Launch the matrixmul kernel test
     run_maltrix_kernal_test(N);
 
-    // Launch the cublas kernel test
-    run_cublas_kernel_test(N);
+    // Launch the matrimul with shared memory kernel test
+    run_maltrix_shared_kernal_test(N);
+
     
     return 0;
 }
