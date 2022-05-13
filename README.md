@@ -1,5 +1,5 @@
 # Matrix Multiplication with CUDA
-Implement a way to compute matrix multiplication with CUDA by computing sub-matrices in parallel with multiple threads. 2 different GPU kernels have been investigated here. The first one (matrixmul_kernel) involves utilising the multi-threading capability to compute the results using a standard matrix multiplication algorithm. The second one (cublas_kernel) utilises the optimised cublasSgemm() in the [cublas library](https://docs.nvidia.com/cuda/cublas/index.html). The performance of these 2 kernels has been compared to a baseline case which uses the CPU to to compute the standard matrix multiplication algorithm.
+Implement a way to compute matrix multiplication with CUDA by computing sub-matrices in parallel with multiple threads. 3 different GPU kernels have been investigated here. The first one (matrixmul_kernel) involves utilising the multi-threading capability to compute the results using a standard matrix multiplication algorithm. The second one (matrixmul_shared_memory_kernel) utilises the same algorithmn as the first one but with the addition of shared memory.  The third one (cublas_kernel) utilises the optimised cublasSgemm() in the [cublas library](https://docs.nvidia.com/cuda/cublas/index.html). The performance of these 3 kernels has been compared to a baseline case which uses the CPU to to compute the standard matrix multiplication algorithm.
 
 ## Build
 Navigate to the root directory of this project and run CMake to configure the project and generate a native build system. My platform is Windows and I configured it with
@@ -34,4 +34,5 @@ A NVidia GeForce GTX 1050 was used.
 | --- | --- |
 | Standard matrix multiplication with CPU | 3491 |
 | Standard matrix multiplication with CUDA multi-threading | 22.882 |
+| Standard matrix multiplication with CUDA multi-threading and shared memory | 8.703 |
 | CUBLAS | 1.4472 |
